@@ -18,7 +18,8 @@ const app = express();
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, '../..', 'majoradmin', 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, '../..', 'majorproject', 'uploads')));
 
 
 const storage = multer.diskStorage({
@@ -39,11 +40,12 @@ const upload = multer({
 
 
 app.use(cors({
-  origin: 'http://localhost:5173',  
+  origin: ['http://localhost:5173', 'http://localhost:5174'],  
   methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization'], 
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/api/auth', authRoutes);
 app.use('/api', productRoutes);

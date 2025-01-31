@@ -1,13 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { createProduct, updateProduct, upload } = require('../controllers/productController');
+const { createProduct, updateProduct,copyToAdmin, upload } = require('../controllers/productController');
 const Product = require('../models/productModel');
 
-// Route to create a product with image uploads
-router.post('/products', upload.array('images'), createProduct);
-
-// Route to update a product with image uploads
-router.put('/products/:id', upload.array('images'), updateProduct);
+router.post('/products', upload.array('images', 5), copyToAdmin, createProduct);
+router.put('/products/:id', upload.array('images', 5), copyToAdmin, updateProduct)
 
 // Route to fetch all products
 router.get('/products', async (req, res) => {
